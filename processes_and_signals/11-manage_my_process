@@ -13,7 +13,7 @@ stop() {
         rm -f /var/run/my_process.pid
         echo "manage_my_process stopped"
     else
-        echo "manage_my_process is not running">&2
+        echo "manage_my_process is not running" >&2
     fi
 }
 # Function to restart manage_my_process
