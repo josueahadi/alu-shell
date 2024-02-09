@@ -13,14 +13,19 @@ stop() {
         rm -f /var/run/my_process.pid
         echo "manage_my_process stopped"
     else
-        echo "manage_my_process is not running"
+        echo "manage_my_process is not running">&2
     fi
 }
 # Function to restart manage_my_process
 restart() {
-    stop
-    start
-    echo "manage_my_process restarted"
+    if [ -f "/var/run/my_process.pid" ]; then
+        stop
+        start
+        echo "manage_my_process restarted"
+    else
+        echo "manage_my_process is not running, starting it"
+        start
+    fi
 }
 # Main function
 case "$1" in
@@ -34,8 +39,7 @@ case "$1" in
         restart
         ;;
     *)
-        echo "Usage: $0 {start|stop|restart}"
+        echo "Usage: manage_my_process {start|stop|restart}" >&2
         exit 1
         ;;
 esac
-
